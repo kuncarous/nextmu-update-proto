@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+package nextmu.v1;
+
+service UpdateService {
+    rpc ListVersions(ListVersionsRequest) returns (ListVersionsResponse);
+    rpc FetchVersion(FetchVersionRequest) returns (FetchVersionResponse);
+    rpc CreateVersion(CreateVersionRequest) returns (CreateVersionResponse);
+    rpc EditVersion(EditVersionRequest) returns (google.protobuf.Empty);
+    rpc ProcessVersion(ProcessVersionRequest) returns (google.protobuf.Empty);
+}
+
+/*
+* Enums
+*/
+enum VersionType {
+    REVISION = 0;
+    MINOR = 1;
+    MAJOR = 2;
+}
+
+enum VersionState {
+    Pending = 0;
+    Ready = 1;
+}
+
+/*
+* Composed Types
+*/
+message Version {
+    bytes id = 1;
+    string version = 2;
+    string description = 3;
+    VersionState state = 4;
+    uint32 files_count = 5;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp updated_at = 7;
+}
+
+/*
+* Requests and Responses
+*/
+message ListVersionsRequest {
+    uint32 page = 1;
+    uint32 size = 2;
+}
+message ListVersionsResponse {
+    uint32 available_count = 1;
+    repeated Version versions = 2;
+}
+
+message FetchVersionRequest {
+    bytes id = 1;
+}
+message FetchVersionResponse {
+    Version version = 1;
+}
+
+message CreateVersionRequest {
+    VersionType type = 1;
+    string description = 2;
+}
+message CreateVersionResponse {
+    bytes id = 1;
+    string version = 2;
+}
+
+message EditVersionRequest {
+    bytes id = 1;
+    string description = 2;
+}
+//message EditVersionResponse {}
+
+message ProcessVersionRequest {
+    bytes id = 1;
+}
+//message ProcessVersionResponse {}
