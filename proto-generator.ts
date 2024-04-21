@@ -23,7 +23,7 @@ const getAllFiles = (dirPath: string, arrayOfFiles?: string[]) => {
 process.env.PATH += path.delimiter + path.resolve('./node_modules/.bin');
 
 const PROTO_DIR = path.resolve('./proto/models');
-const MODEL_DIR = path.resolve('./src/proto');
+const MODEL_DIR = path.resolve(process.env.PROTO_PATH!);
 const PROTOC_GEN_TS_PATH = path.resolve(
     './node_modules/.bin/protoc-gen-ts.cmd',
 );
