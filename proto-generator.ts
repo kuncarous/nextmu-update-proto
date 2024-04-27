@@ -31,5 +31,5 @@ try {
 } catch (error) {}
 
 shell.exec(
-    `proto-loader-gen-types --longs=String --defaults --arrays --oneofs --grpcLib=@grpc/grpc-js --outDir=${path.join(MODEL_DIR, path.sep)} ${getAllFiles(PROTO_DIR).join(' ')}`,
+    `proto-loader-gen-types --longs=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=${path.join(MODEL_DIR, path.sep)} ${getAllFiles(PROTO_DIR).join(' ')}`,
 );
