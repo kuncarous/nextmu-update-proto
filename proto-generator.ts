@@ -30,10 +30,6 @@ try {
     mkdirSync(MODEL_DIR, { recursive: true });
 } catch (error) {}
 
-// https://github.com/agreatfool/grpc_tools_node_protoc_ts/tree/master/examples
 shell.exec(
-    `proto-loader-gen-types --longs=String --defaults=true --arrays=true --oneofs --grpcLib=@grpc/grpc-js --outDir=${path.join(MODEL_DIR, path.sep)} ${getAllFiles(PROTO_DIR).join(' ')}`,
+    `proto-loader-gen-types --longs=String --defaults --arrays --oneofs --grpcLib=@grpc/grpc-js --outDir=${path.join(MODEL_DIR, path.sep)} ${getAllFiles(PROTO_DIR).join(' ')}`,
 );
-
-// https://github.com/dcodeIO/protobuf.js#command-line
-// https://github.com/dcodeIO/protobuf.js#command-line-api
