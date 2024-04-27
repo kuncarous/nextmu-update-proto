@@ -23,8 +23,8 @@ enum VersionType {
 }
 
 enum VersionState {
-    Pending = 0;
-    Ready = 1;
+    PENDING = 0;
+    READY = 1;
 }
 
 /*
