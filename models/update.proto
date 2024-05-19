@@ -10,6 +10,8 @@ service UpdateService {
     rpc FetchVersion(FetchVersionRequest) returns (FetchVersionResponse);
     rpc CreateVersion(CreateVersionRequest) returns (CreateVersionResponse);
     rpc EditVersion(EditVersionRequest) returns (google.protobuf.Empty);
+    rpc StartUploadVersion(StartUploadVersionRequest) returns (StartUploadVersionResponse);
+    rpc UploadVersionChunk(UploadVersionChunkRequest) returns (UploadVersionChunkResponse);
     rpc ProcessVersion(ProcessVersionRequest) returns (google.protobuf.Empty);
 }
 
@@ -73,6 +75,33 @@ message EditVersionRequest {
     string description = 2;
 }
 //message EditVersionResponse {}
+
+message ChunkInfo {
+    uint32 offset = 1;
+    uint32 size = 2;
+}
+
+message StartUploadVersionRequest {
+    string version_id = 1;
+    string hash = 2; // sha256
+    string type = 3; // application/zip
+    uint32 chunk_size = 4; // in bytes
+    uint32 file_size = 5; // in bytes
+}
+message StartUploadVersionResponse {
+    string id = 1; // upload id
+    repeated ChunkInfo existing_chunks = 2; // provide resume upload support
+}
+
+message UploadVersionChunkRequest {
+    string upload_id = 1; // fast fetch from mongo
+    string concurrent_id = 2; // prevent multiple upload sessions of different file at same time
+    uint32 offset = 3; // index offset based (not bytes offset), it would be multiplied with chunk_size
+    bytes data = 4; // has to meet the chunk_size defined in start upload request except for the last portion of the file
+}
+message UploadVersionChunkResponse {
+    bool finished = 1; // true if all chunks were uploaded and the version is ready to be processed and published this will return true
+}
 
 message ProcessVersionRequest {
     string id = 1;
