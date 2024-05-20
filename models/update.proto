@@ -89,8 +89,9 @@ message StartUploadVersionRequest {
     uint32 file_size = 5; // in bytes
 }
 message StartUploadVersionResponse {
-    string id = 1; // upload id
-    repeated ChunkInfo existing_chunks = 2; // provide resume upload support
+    string upload_id = 1; // upload id
+    string concurrent_id = 2;
+    repeated ChunkInfo existing_chunks = 3; // provide resume upload support
 }
 
 message UploadVersionChunkRequest {
