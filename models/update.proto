@@ -29,9 +29,23 @@ enum VersionState {
     READY = 1;
 }
 
+enum UploadState {
+    NONE = 0;
+    PENDING = 1;
+    PROCESSING = 2;
+    READY = 3;
+}
+
 /*
 * Composed Types
 */
+message Upload {
+    string id = 1;
+    string hash = 2;
+    uint32 fileSize = 3;
+    UploadState state = 4;
+}
+
 message Version {
     string id = 1;
     string version = 2;
@@ -40,6 +54,7 @@ message Version {
     uint32 files_count = 5;
     google.protobuf.Timestamp created_at = 6;
     google.protobuf.Timestamp updated_at = 7;
+    optional Upload upload = 8;
 }
 
 /*
