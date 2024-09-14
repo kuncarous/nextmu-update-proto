@@ -10,9 +10,11 @@ service UpdateService {
     rpc FetchVersion(FetchVersionRequest) returns (FetchVersionResponse);
     rpc CreateVersion(CreateVersionRequest) returns (CreateVersionResponse);
     rpc EditVersion(EditVersionRequest) returns (google.protobuf.Empty);
+    rpc ProcessVersion(ProcessVersionRequest) returns (google.protobuf.Empty);
+    
+    rpc FetchUploads(FetchUploadsRequest) returns (FetchUploadsResponse);
     rpc StartUploadVersion(StartUploadVersionRequest) returns (StartUploadVersionResponse);
     rpc UploadVersionChunk(UploadVersionChunkRequest) returns (UploadVersionChunkResponse);
-    rpc ProcessVersion(ProcessVersionRequest) returns (google.protobuf.Empty);
 }
 
 /*
@@ -39,11 +41,19 @@ enum UploadState {
 /*
 * Composed Types
 */
+message UploadMissingRange {
+    uint32 start = 1;
+    uint32 end = 2;
+}
+
 message Upload {
     string id = 1;
     string hash = 2;
     uint32 fileSize = 3;
-    UploadState state = 4;
+    uint32 chunkSize = 4;
+    uint32 chunksCount = 5;
+    UploadState state = 6;
+    repeated UploadMissingRange missingRanges = 7;
 }
 
 message Version {
@@ -54,7 +64,6 @@ message Version {
     uint32 files_count = 5;
     google.protobuf.Timestamp created_at = 6;
     google.protobuf.Timestamp updated_at = 7;
-    optional Upload upload = 8;
 }
 
 /*
@@ -90,6 +99,13 @@ message EditVersionRequest {
     string description = 2;
 }
 //message EditVersionResponse {}
+
+message FetchUploadsRequest {
+    repeated string ids = 1;
+}
+message FetchUploadsResponse {
+    repeated Upload uploads = 1;
+}
 
 message ChunkInfo {
     uint32 offset = 1;
