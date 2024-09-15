@@ -109,11 +109,6 @@ message FetchUploadsResponse {
     repeated Upload uploads = 1;
 }
 
-message ChunkInfo {
-    uint32 offset = 1;
-    uint32 size = 2;
-}
-
 message StartUploadVersionRequest {
     string version_id = 1;
     string hash = 2; // sha256
@@ -124,7 +119,7 @@ message StartUploadVersionRequest {
 message StartUploadVersionResponse {
     string upload_id = 1; // upload id
     string concurrent_id = 2;
-    repeated ChunkInfo existing_chunks = 3; // provide resume upload support
+    repeated UploadMissingRange missing_ranges = 3; // provide resume upload support
 }
 
 message UploadVersionChunkRequest {
