@@ -48,14 +48,14 @@ message UploadMissingRange {
 
 message Upload {
     string id = 1;
-    string versionId = 2;
-    string concurrentId = 3;
+    string version_id = 2;
+    string concurrent_id = 3;
     string hash = 4;
-    uint32 fileSize = 5;
-    uint32 chunkSize = 6;
-    uint32 chunksCount = 7;
+    uint32 file_size = 5;
+    uint32 chunk_size = 6;
+    uint32 chunks_count = 7;
     UploadState state = 8;
-    repeated UploadMissingRange missingRanges = 9;
+    repeated UploadMissingRange missing_ranges = 9;
 }
 
 message Version {
