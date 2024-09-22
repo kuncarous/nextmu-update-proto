@@ -28,7 +28,8 @@ enum VersionType {
 
 enum VersionState {
     PENDING = 0;
-    READY = 1;
+    PROCESSING = 1;
+    READY = 2;
 }
 
 enum UploadState {
